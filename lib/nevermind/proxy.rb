@@ -1,11 +1,26 @@
 module Nevermind
   class Proxy
+    # include Enumerable
+
     def initialize(first, second)
       @first, @second = first, second
     end
 
+    def each
+      @first.each do |obj|
+        yield obj
+      end
+      @second.each do |obj|
+        yield obj
+      end
+    end
+
+    def count
+      @first.count + @second.count
+    end
+
     def method_missing(method, *args, &block)
-      if [:all, :where].include? method
+      if [:all, :where, :order, :limit].include? method
         call_relation_method(method, *args, &block)
       else
         if '!' == method.to_s.last
