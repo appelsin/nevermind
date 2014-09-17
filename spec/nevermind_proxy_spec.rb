@@ -59,6 +59,17 @@ describe Nevermind::Proxy do
     expect(@posts.count).to eq count
   end
 
+  xit 'handles .order' do
+    posts = @posts.order :rand
+    previous_post = false
+    posts.each do |post|
+      unless false == previous_post
+        expect(post.rand).to be >= previous_post.rand
+      end
+      previous_post = post
+    end
+  end
+
   xit 'handles .limit' do
     posts = @posts.limit 5
     $stderr.puts posts.all.inspect
