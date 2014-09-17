@@ -1,5 +1,5 @@
 require 'nevermind/version'
-require 'nevermind/proto'
+require 'nevermind/proxy'
 
 module Nevermind
   # Your code goes here...

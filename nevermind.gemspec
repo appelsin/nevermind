@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Roman Exempliarov"]
   spec.email         = ["urvala@gmail.com"]
   spec.summary       = %q{Abstraction layer that allows to work with multiple models just like with one.}
-  spec.description   = %q{In development now. Next milestone: 1. Handling a pair of models with find_by. }
+  spec.description   = %q{In development now.}
   spec.homepage      = ""
   spec.license       = "MIT"
 
