@@ -8,9 +8,10 @@ Gem::Specification.new do |spec|
   spec.version       = Nevermind::VERSION
   spec.authors       = ["Roman Exempliarov"]
   spec.email         = ["urvala@gmail.com"]
-  spec.summary       = %q{Abstraction layer that allows to work with multiple models just like with one.}
-  spec.description   = %q{In development now.}
-  spec.homepage      = ""
+  spec.summary       = 'Abstraction layer that allows to work with multiple models just like with one.'
+  spec.description   = 'Working with multiple models like with one. ' +
+                       '@posts = Nevermind::Proxy.new(Article, Video).find_by(author: @author)'
+  spec.homepage      = "https://github.com/appelsin/nevermind"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
