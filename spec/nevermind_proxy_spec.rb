@@ -59,9 +59,10 @@ describe Nevermind::Proxy do
     expect(@posts.count).to eq count
   end
 
-  xit 'handles .order' do
+  it 'handles .order with single param' do
     posts = @posts.order :rand
     previous_post = false
+    expect( posts.count ).to eq Article.count + Video.count
     posts.each do |post|
       unless false == previous_post
         expect(post.rand).to be >= previous_post.rand
@@ -70,9 +71,80 @@ describe Nevermind::Proxy do
     end
   end
 
-  xit 'handles .limit' do
+  it 'handles .order with single desc param' do
+    posts = @posts.order :rand => :desc
+    previous_post = false
+    expect(posts.count).to eq Article.count + Video.count
+    posts.each do |post|
+      unless false == previous_post
+        expect(post.rand).to be <= previous_post.rand
+      end
+      previous_post = post
+    end
+  end
+
+  it 'handles .order with double param' do
+    posts = @posts.order :id, :rand => :desc
+    previous_post = false
+    expect(posts.count).to eq Article.count + Video.count
+    posts.each do |post|
+      unless false == previous_post
+        expect(post.id).to be >= previous_post.id
+        if post.id == previous_post.id
+          expect(post.rand).to be <= previous_post.rand
+        end
+      end
+      previous_post = post
+    end
+  end
+
+  it 'handles .limit' do
     posts = @posts.limit 5
-    $stderr.puts posts.all.inspect
-    expect(posts.all.count).to eq 5
+    expect(posts.count).to eq 5
+  end
+
+  it 'handles []' do
+    posts = @posts.order(:id)
+    expect(posts[0].id).to eq 1
+    expect(posts[1].id).to eq 1
+    expect(posts[2].id).to eq 2
+    expect(posts[3].id).to eq 2
+  end
+
+  it 'handles .offset' do
+    last_post = @posts.limit(5)[4]
+    posts = @posts.limit(5).offset(0)
+    expect(posts.count).to eq 5
+    expect(posts[4]).to eq last_post
+
+    posts = @posts.order(:id).limit(4).offset(2)
+    expect(posts[0].id).to eq 2
+    expect(posts[1].id).to eq 2
+    expect(posts[2].id).to eq 3
+    expect(posts[3].id).to eq 3
+    expect(posts[4]).to eq nil
+
+  end
+
+  it 'handles .order with .limit & .offset' do
+    posts_offset_0 = @posts.order(:rand).limit(5)
+    posts_offset_2 = @posts.order(:rand).limit(5).offset(2)
+
+    expect(posts_offset_0.count).to eq 5
+    expect(posts_offset_2.count).to eq 5
+
+    [posts_offset_0, posts_offset_2].each do |posts|
+      previous_post = false
+      posts.each do |post|
+        unless false == previous_post
+          expect(post.rand).to be >= previous_post.rand
+        end
+        previous_post = post
+      end
+    end
+
+    [0,1,2].each do |i|
+      expect(posts_offset_2[i]).to be == posts_offset_0[i+2]
+    end
   end
 end
