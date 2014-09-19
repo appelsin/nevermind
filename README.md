@@ -22,16 +22,22 @@ Or install it yourself as:
 
     @posts = Nevermind::Proxy.new(Article.all, Video.all)
 
-As for version 0.0.2 it supports:
+As for version 0.0.2 it:
 
-### Any calls to any proxied class expected to return item from collection
+- Supports calls to proxied class that expected to return item from collection. This is done by default.
+- Collection methods proxy
+- ActiveRecord relation methods proxy
 
-The default behaviour is to call method from proxied classes and return not nil one:
+### Default behaviour
 
-    @posts.find_by params
+It delegates method calls to proxied classes if they not supposed to be "collection" or "relation methods".
+
+When called returns not nil one:
+
+    @posts.find_by(params) == Article.find_by(params) || Video.find_by(params)
     @posts.first
     
-The "!" methods will return not raising exception result:
+The "!" methods will return result witch doesn't raise exception:
 
     @posts.find_by! params
     @posts.first!
@@ -40,11 +46,11 @@ So, such method calls are class agnostioc.
 
 ### Collection methods
 
-Only agnostic each and [] is supported at the moment:
+Only each and [] is supported at the moment. They are also class-agnostic:
 
     @posts.each { |post| post.do_something! }
     @posts[3]
-    
+
 ### ActiveRecord relation methods
 
 This methods can be used for ActiveRecord only
