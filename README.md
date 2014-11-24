@@ -32,12 +32,12 @@ As for version 0.0.2 it:
 
 It delegates method calls to proxied classes if they not supposed to be "collection" or "relation methods".
 
-When called returns not nil one:
+When called returns not nil:
 
     @posts.find_by(params) == Article.find_by(params) || Video.find_by(params)
     @posts.first
     
-The "!" methods will return result witch doesn't raise exception:
+The "!" methods will return result which doesn't raise exception:
 
     @posts.find_by! params
     @posts.first!
@@ -63,7 +63,7 @@ This methods can be used for ActiveRecord only
           .limit(10).offset(20)
           .each { |post| post.do_something! }
     
-! Warning: params for ActiveRecord not yet carefully checked: be shure to pass ints to limit & 
+! Warning: params for ActiveRecord not yet carefully checked: be shure to pass ints to limit & offset
 
 ## Future
 
